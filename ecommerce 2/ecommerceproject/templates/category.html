@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+     {% if category %}
+         {{category.description| truncatewords:155}}
+     {% else %}
+         Welcome to the cart store where you can buy awesome items
+     {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+          {{category.name}}-shop cart
+    {% else %}
+          www.Foodcart.com
+    {% endif %}
+{% endblock %}
+{% block content %}
+     {% if category %}
+           <div class="row my_row_class">
+               <div class="mx-auto">
+                   <p><a href="{% url 'ecommerceapp:allProdCat' %}">Home| </a>{{category.name}}</p>
+               </div>
+           </div>
+     {% endif %}
+   <div class="mx-auto">
+       {% if category %}
+             <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+   </div>
+     <br>
+     <div>
+         <h1 class="text-center my_title">{{category.name}}</h1>
+         <li style="font-weight:bold;font-family:cursive;font-size:22px;"><p class="text-justify">{{category.description}}</p></li>
+
+     </div>
+     {% else %}
+         <div>
+          <center><img class="my_image my_image_padding" src="{% static 'img/f4.png' %}" style="width:1300px;height:auto;"></center>
+         </div>
+
+
+         <div>
+          <center><img class="my_shopcover my_image_shopcover" src="{% static 'img/del.png' %}" style="width:1000px;height:auto;"></center>
+         </div>
+
+
+       <div>
+           <h1 class="text-center my_title" style="font-size:40px;font-family:italic;color:grey;bold;border-style:solid;border-width:3px;">Find Our Products </h1>
+
+           <p class="text-center">
+<p style="text-transform:uppercase;font-weight:normal;
+  font-family:Verdana;text-align:center;font-weight:bold;color:black;font-size:22px;">Kerala | Chinese | North Indian | South Indian</p><br>
+
+       </div>
+     {% endif %}
+
+      <div class="container">
+          <div class="row max-auto">
+               {% for product in products.object_list %}
+                <div class="my_bottom_margin col-12 col-lg-4">
+                  <div class="card text-center" style="min-width:18rem;">
+                      <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" style="width:407px;height:270px;color:black;font-family:Verdana;border:3px solid grey;" > </a>
+                  <div class="card-body">
+                      <h4>{{product.name}}</h4>
+                      <p style="color:black;font-size:15px;font-weight:bold;background-color:grey;">${{product.price}}</p>
+                  </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+          <div class="mx-auto">
+              <div class="text-center">
+              {% for pg in products.paginator.page_range %}
+              <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} activate {% endif %}">{{pg}}</a>
+              {% endfor %}
+              </div>
+          </div>
+      </div>
+{% endblock %}
+
+
+<!--style="width:250px;height:350px;color:black;"-->
+<!---->
